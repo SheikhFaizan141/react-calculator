@@ -112,7 +112,7 @@ const KeyPad = ({ onClick, onEqual, onclear }) => {
         3
       </button>
       <button
-        onClick={onEqual}
+        onClick={onClick}
         id='equals'
         value='equals'
       >
@@ -137,24 +137,80 @@ const KeyPad = ({ onClick, onEqual, onclear }) => {
 }
 
 function App() {
+  const [operator, setOperator] = useState('')
   const [input, setInput] = useState('0')
   const [expression, setExpression] = useState(String.fromCharCode(160))
 
-  const handleEqual = (e) => {
-    console.log(e)
-    setExpression(eval(input))
-  }
-
   const handleClick = (e) => {
-    console.log(e.target.value)
-    console.log(input.indexOf('0') === 0)
-    if (e.target.value !== '.' && input.indexOf('0') === 0) {
-      setInput(e.target.value)
-    } else {
-      setInput((prevState) => {
-        return `${prevState}${e.target.value}`
-      })
+
+    switch (e.target.value) {
+      case '.':
+        if (input.indexOf('.') === -1) {
+          console.log('ee')
+          setInput((prevState) => {
+            return prevState + '' + e.target.value;
+          })
+          setExpression(prevState => prevState + '' + e.target.value)
+        }
+        break;
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '0':
+
+        if (/[\/\-*+]/.test(input)) {
+          setInput(String.fromCharCode(160))
+        }
+
+        if (e.target.value === '0' && expression.length === 0) {
+          setExpression(prevState => prevState + '' + e.target.value)
+
+        } else {
+          setInput((prevState) => {
+            return prevState.indexOf('0') === 0 && prevState.indexOf('.') === -1 ? e.target.value : prevState + '' + e.target.value;
+          })
+
+          setExpression(prevState => prevState + e.target.value)
+        }
+
+        break
+      case '/':
+      case '*':
+      case '+':
+      // case '-':
+
+        let regEx = /[\/*+]/.test(expression[expression.length - 1])
+        if (!regEx) {
+          setInput(e.target.value)
+          // setOperator(e.target.value)
+          setExpression(prevState => prevState + '' + e.target.value)
+        } else if (expression[expression.length - 1] !== e.target.value) {
+          setInput(e.target.value)
+          // setOperator(e.target.value)
+          setExpression(prevState => prevState.replace(expression.ind, e.target.value))
+        }
+        break;
+
+      case '-':
+         setInput(e.target.value)
+        setExpression(prevState => prevState + '' + e.target.value)
+        break;
+      case 'equals':
+
+        setExpression(eval(expression))
+
+        setInput(eval(expression))
+        break;
+      default:
+        break;
     }
+
   }
 
   const handleclear = () => {
@@ -173,7 +229,6 @@ function App() {
         <KeyPad
           onClick={handleClick}
           onclear={handleclear}
-          onEqual={handleEqual}
         />
       </div>
     </div>
