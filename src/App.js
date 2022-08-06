@@ -183,24 +183,26 @@ function App() {
       case '/':
       case '*':
       case '+':
-      // case '-':
+      case '-':
 
         let regEx = /[\/*+]/.test(expression[expression.length - 1])
-        if (!regEx) {
+
+        if (e.target.value === '-') {
           setInput(e.target.value)
-          // setOperator(e.target.value)
+          setExpression(prevState => prevState + '' + e.target.value)
+        } else if (!regEx) {
+          setInput(e.target.value)
           setExpression(prevState => prevState + '' + e.target.value)
         } else if (expression[expression.length - 1] !== e.target.value) {
           setInput(e.target.value)
-          // setOperator(e.target.value)
-          setExpression(prevState => prevState.replace(expression.ind, e.target.value))
+          setExpression(prevState => prevState.replace(expression[expression.length - 1], e.target.value))
         }
         break;
 
-      case '-':
-         setInput(e.target.value)
-        setExpression(prevState => prevState + '' + e.target.value)
-        break;
+      // case '-':
+      //    setInput(e.target.value)
+      //   setExpression(prevState => prevState + '' + e.target.value)
+      //   break;
       case 'equals':
 
         setExpression(eval(expression))
