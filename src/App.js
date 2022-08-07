@@ -3,9 +3,9 @@ import './App.css';
 
 const Display = ({ input, expression }) => {
   return (
-    <div id='cont-display'>
+    <div className='screen'>
       <div className="equation-diplay">{expression}</div>
-      <div id="display">{input}</div>
+      <div id="display" className='input-display'>{input}</div>
     </div>
   )
 }
@@ -23,12 +23,14 @@ const KeyPad = ({ onClick }) => {
       </button>
       <button
         onClick={onClick}
+        className='operator'
         id='divide'
         value='/'>
         ÷
       </button>
       <button
         onClick={onClick}
+        className='operator'
         id='multiply'
         value='*'
       >
@@ -57,6 +59,7 @@ const KeyPad = ({ onClick }) => {
       </button>
       <button
         onClick={onClick}
+        className='operator'
         id='subtract'
         value='-'
       >
@@ -85,6 +88,7 @@ const KeyPad = ({ onClick }) => {
       </button>
       <button
         onClick={onClick}
+        className='operator'
         id='add'
         value='+'
       >
@@ -132,6 +136,13 @@ const KeyPad = ({ onClick }) => {
       >
         .
       </button>
+      {/* <button
+        onClick={onClick}
+        id='c'
+        value='c'
+      >
+        C
+      </button> */}
     </div>
   )
 }
@@ -139,6 +150,7 @@ const KeyPad = ({ onClick }) => {
 function App() {
   const [input, setInput] = useState('0')
   const [expression, setExpression] = useState(String.fromCharCode(160))
+  // const [expression, setExpression] = useState('2 + 1')
 
   const handleClick = (e) => {
 
@@ -190,14 +202,13 @@ function App() {
 
         const endsWithOperator = /[/*\-+]$/.test(expression)
 
-
-
         if (endsWithOperator) {
 
           if (e.target.value === '-') {
-            setInput(e.target.value)
-            setExpression(prevState => prevState + '' + e.target.value)
-
+            if (expression.charAt(expression.length - 1) !== '-') {
+              setInput(e.target.value)
+              setExpression(prevState => prevState + '' + e.target.value)
+            }
           } else {
 
             setInput(e.target.value)
