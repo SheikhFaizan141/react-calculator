@@ -11,14 +11,14 @@ const Display = ({ input, expression }) => {
 }
 
 
-const KeyPad = ({ onClick, onEqual, onclear }) => {
+const KeyPad = ({ onClick }) => {
   return (
     <div className='keys'>
       <button
-        onClick={onclear}
+        onClick={onClick}
         className='clear'
         id='clear'
-        value='AC'>
+        value='ac'>
         AC
       </button>
       <button
@@ -137,7 +137,6 @@ const KeyPad = ({ onClick, onEqual, onclear }) => {
 }
 
 function App() {
-  const [operator, setOperator] = useState('')
   const [input, setInput] = useState('0')
   const [expression, setExpression] = useState(String.fromCharCode(160))
 
@@ -146,7 +145,6 @@ function App() {
     switch (e.target.value) {
       case '.':
         if (input.indexOf('.') === -1) {
-          console.log('ee')
           setInput((prevState) => {
             return prevState + '' + e.target.value;
           })
@@ -164,11 +162,16 @@ function App() {
       case '9':
       case '0':
 
-        if (/[\/\-*+]/.test(input)) {
+        // resets
+        if (/[/\-*+]/.test(input)) {
           setInput(String.fromCharCode(160))
         }
+        // else if (expression.charAt()) {
+
+        // }
 
         if (e.target.value === '0' && expression.length === 0) {
+          setInput(e.target.value)
           setExpression(prevState => prevState + '' + e.target.value)
 
         } else {
@@ -185,41 +188,45 @@ function App() {
       case '+':
       case '-':
 
-        let regEx = /[\/*+]/.test(expression[expression.length - 1])
+        const endsWithOperator = /[/*\-+]$/.test(expression)
 
-        if (e.target.value === '-') {
+
+
+        if (endsWithOperator) {
+
+          if (e.target.value === '-') {
+            setInput(e.target.value)
+            setExpression(prevState => prevState + '' + e.target.value)
+
+          } else {
+
+            setInput(e.target.value)
+
+            setExpression(prevState => prevState.replace(/[/*\-+]+$/, e.target.value))
+          }
+
+        } else {
+          console.log('oo')
           setInput(e.target.value)
           setExpression(prevState => prevState + '' + e.target.value)
-        } else if (!regEx) {
-          setInput(e.target.value)
-          setExpression(prevState => prevState + '' + e.target.value)
-        } else if (expression[expression.length - 1] !== e.target.value) {
-          setInput(e.target.value)
-          setExpression(prevState => prevState.replace(expression[expression.length - 1], e.target.value))
         }
-        break;
 
-      // case '-':
-      //    setInput(e.target.value)
-      //   setExpression(prevState => prevState + '' + e.target.value)
-      //   break;
+
+        break;
       case 'equals':
 
         setExpression(eval(expression))
-
-        setInput(eval(expression))
+        setInput(eval(expression).toString())
+        break;
+      case 'ac':
+        setInput('0')
+        setExpression(String.fromCharCode(160))
         break;
       default:
         break;
     }
-
   }
 
-  const handleclear = () => {
-    console.log('clear')
-    setInput('0')
-    setExpression(String.fromCharCode(160))
-  }
 
   return (
     <div className='container'>
@@ -230,7 +237,6 @@ function App() {
         />
         <KeyPad
           onClick={handleClick}
-          onclear={handleclear}
         />
       </div>
     </div>
