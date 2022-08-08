@@ -1,71 +1,72 @@
-#root {
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background-color: rgb(0, 0, 0); */
+  margin: 0;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  background-color: rgb(0, 67, 99);
+  background-color: rgb(0, 0, 0);
+  color: #fff;
   width: 360px;
   height: auto;
-  border: 1px solid green;
-  padding: 0.75rem 0.5rem 0.5rem;
+  padding: 1.5rem 1rem 1rem;
+  border-radius: 3px;
 }
 
 /* display */
-#cont-display {
+.screen {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.15rem;
-  text-align: right;
   display: flex;
   flex-direction: column;
-  background-color: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
-  margin-bottom: 1rem;
-  padding: 4px 0.25rem;
+  align-items: flex-end;
+  border-bottom: 1px solid orangered;
+  padding: 0.25rem 0.5rem;
 }
 
-.main-display {
-
-  padding-top: 0.25rem;
-}
-
-/* Keybord */
-.keys {
+.equation-diplay {
   font-size: 1.15rem;
+}
+
+.input-display {
+  font-size: 1.5rem;
+}
+
+/* keys */
+.keys {
+  margin-top: 1.05rem;
+  font-size: 1.5rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: .25rem;
-  color: rgb(0, 0, 0);
- 
   user-select: none;
-  text-align: center;
 }
 
-
 .keys button {
-  background: rgb(100, 98, 98);
+  font-size: 1.05rem;
+  background: rgb(100, 100, 100);
   color: #fff;
   padding: 1.25rem 1rem;
   border-radius: 3px;
   border: none;
-  box-shadow: 0 0 4px black;
-  /* border: 2px solid rgb); */
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .keys button:hover {
-  background: rgb(117, 117, 117);
-  box-shadow: 0 0 6px rgb(0, 0, 0);
   transform: scale(0.98);
+}
+
+.keys button.operator {
+  background: rgb(255, 255, 255);
+  color: black;
 }
 
 /* Button's */
 #clear {
-  background-color: rgb(255, 100, 0);
+  background-color: orangered;
   grid-column: 1 / 3;
 }
 
@@ -76,9 +77,9 @@
 #equals {
   grid-column: 4 / 5;
   grid-row: 4 / 6;
-  
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(28, 94, 170);
+  justify-items: center;
+  background-color: #629bf7;
 }
