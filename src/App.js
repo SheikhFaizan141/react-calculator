@@ -21,6 +21,7 @@ const KeyPad = ({ onClick }) => {
         value='ac'>
         AC
       </button>
+
       <button
         onClick={onClick}
         className='operator'
@@ -136,13 +137,6 @@ const KeyPad = ({ onClick }) => {
       >
         .
       </button>
-      {/* <button
-        onClick={onClick}
-        id='c'
-        value='c'
-      >
-        C
-      </button> */}
     </div>
   )
 }
@@ -200,7 +194,7 @@ function App() {
       case '+':
       case '-':
 
-        const endsWithOperator = /[/*\-+]$/.test(expression)
+        const endsWithOperator = /[/*+-]$/.test(expression)
 
         if (endsWithOperator) {
 
@@ -213,7 +207,7 @@ function App() {
 
             setInput(e.target.value)
 
-            setExpression(prevState => prevState.replace(/[/*\-+]+$/, e.target.value))
+            setExpression(prevState => prevState.replace(/[/*+-]+$/, e.target.value))
           }
 
         } else {
