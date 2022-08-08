@@ -136,13 +136,6 @@ const KeyPad = ({ onClick }) => {
       >
         .
       </button>
-      {/* <button
-        onClick={onClick}
-        id='c'
-        value='c'
-      >
-        C
-      </button> */}
     </div>
   )
 }
@@ -150,37 +143,35 @@ const KeyPad = ({ onClick }) => {
 function App() {
   const [input, setInput] = useState('0')
   const [expression, setExpression] = useState(String.fromCharCode(160))
-  // const [expression, setExpression] = useState('2 + 1')
 
   const handleClick = (e) => {
+    const endsWithOperator = /[/*\-+]$/;
 
     switch (e.target.value) {
       case '.':
-        // Strat's without zero
-        // if (/[/\-*+]/.test(input)) {
-        //   setInput(String.fromCharCode(160))
-        //   setInput(e.target.value)
-        // }
+        // if input contains operator
+        if (/[/*+-]/.test(input)) {
+          setInput(String.fromCharCode(160))
+        }
 
-        const regEx = /^0/.test(input)
-        // console.log(regEx)
-        // if (input.indexOf('.') === -1) {
-        //   setInput((prevState) => {
-        //     return prevState + '' + e.target.value;
-        //   })
-        //   setExpression(prevState => prevState + '' + e.target.value)
-        // }
-
-        console.log(input)
         if (input.indexOf('.') === -1 && input === '0') {
-          console.log('hi')
           setInput((prevState) => {
             return prevState + '' + e.target.value;
           })
           setExpression('0' + e.target.value)
+        } else if (input.indexOf('.') === -1) {
+
+          // if expression ends with operator
+          if (/[/*+-]$/.test(expression)) {
+            setInput('0' + e.target.value)
+            setExpression(prevState => prevState + '0' + e.target.value)
+          } else {
+            setInput((prevState) => {
+              return prevState + '' + e.target.value;
+            })
+            setExpression(prevState => prevState + e.target.value)
+          }
         }
-
-
 
         break;
       case '1':
@@ -194,16 +185,16 @@ function App() {
       case '9':
       case '0':
 
-        // resets
+        // reset if input contains operators
         if (/[/\-*+]/.test(input)) {
           setInput(String.fromCharCode(160))
         }
 
-
+        // logic here can be simplified and can be made more readable
+        // Problem: Zero can be repeated
         if (e.target.value === '0' && expression.length === 0) {
           setInput(e.target.value)
           setExpression(prevState => prevState + '' + e.target.value)
-
         } else {
           setInput((prevState) => {
             return prevState.indexOf('0') === 0 && prevState.indexOf('.') === -1 ? e.target.value : prevState + '' + e.target.value;
@@ -218,38 +209,37 @@ function App() {
       case '+':
       case '-':
 
-        const endsWithOperator = /[/*\-+]$/.test(expression)
-
-        if (endsWithOperator) {
-
+        //Problem: minus can be repeated
+        if (endsWithOperator.test(expression)) {
           if (e.target.value === '-') {
             if (expression.charAt(expression.length - 1) !== '-') {
               setInput(e.target.value)
               setExpression(prevState => prevState + '' + e.target.value)
             }
           } else {
-
             setInput(e.target.value)
-
             setExpression(prevState => prevState.replace(/[/*\-+]+$/, e.target.value))
           }
 
         } else {
-          console.log('oo')
           setInput(e.target.value)
           setExpression(prevState => prevState + '' + e.target.value)
         }
 
-
         break;
       case 'equals':
 
-        setExpression(eval(expression))
-        setInput(eval(expression).toString())
+        const result = eval(expression);
+
+        setExpression(result)
+        setInput(result.toString())
+
         break;
       case 'ac':
+
         setInput('0')
         setExpression(String.fromCharCode(160))
+
         break;
       default:
         break;

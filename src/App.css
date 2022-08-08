@@ -17,18 +17,19 @@ body {
   border-radius: 3px;
 }
 
-/* display */
+/* Display */
 .screen {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  border-bottom: 1px solid orangered;
+  border-bottom: 1px solid white;
   padding: 0.25rem 0.5rem;
 }
 
 .equation-diplay {
   font-size: 1.15rem;
+  border-bottom: 1px solid skyblue;
 }
 
 .input-display {
@@ -37,8 +38,7 @@ body {
 
 /* keys */
 .keys {
-  margin-top: 1.05rem;
-  font-size: 1.5rem;
+  margin-top: 1.15rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: .25rem;
@@ -64,7 +64,7 @@ body {
   color: black;
 }
 
-/* Button's */
+/* Button */
 #clear {
   background-color: orangered;
   grid-column: 1 / 3;
