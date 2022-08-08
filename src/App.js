@@ -144,12 +144,32 @@ function App() {
 
     switch (e.target.value) {
       case '.':
-        if (input.indexOf('.') === -1) {
+        // Strat's without zero
+        // if (/[/\-*+]/.test(input)) {
+        //   setInput(String.fromCharCode(160))
+        //   setInput(e.target.value)
+        // }
+
+        const regEx = /^0/.test(input)
+        // console.log(regEx)
+        // if (input.indexOf('.') === -1) {
+        //   setInput((prevState) => {
+        //     return prevState + '' + e.target.value;
+        //   })
+        //   setExpression(prevState => prevState + '' + e.target.value)
+        // }
+
+        console.log(input)
+        if (input.indexOf('.') === -1 && input === '0') {
+          console.log('hi')
           setInput((prevState) => {
             return prevState + '' + e.target.value;
           })
-          setExpression(prevState => prevState + '' + e.target.value)
+          setExpression('0' + e.target.value)
         }
+
+
+
         break;
       case '1':
       case '2':
@@ -166,9 +186,7 @@ function App() {
         if (/[/\-*+]/.test(input)) {
           setInput(String.fromCharCode(160))
         }
-        // else if (expression.charAt()) {
 
-        // }
 
         if (e.target.value === '0' && expression.length === 0) {
           setInput(e.target.value)
@@ -189,8 +207,6 @@ function App() {
       case '-':
 
         const endsWithOperator = /[/*\-+]$/.test(expression)
-
-
 
         if (endsWithOperator) {
 
